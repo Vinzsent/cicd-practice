@@ -1,9 +1,7 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
 
 jobs:
@@ -24,3 +22,12 @@ jobs:
 
     - name: Run tests
       run: npm test
+
+  deploy:
+    needs: build-and-test  # This ensures deploy only runs if tests pass
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Trigger Render Deployment
+      run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
