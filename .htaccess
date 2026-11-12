@@ -1,0 +1,16 @@
+RewriteEngine On
+
+# Redirect root to /login automatically
+RewriteRule ^$ /login [R=302,L]
+
+# Clean routes
+RewriteRule ^login/?$ login.php [L]
+RewriteRule ^register/?$ register.php [L]
+RewriteRule ^dashboard/?$ public/dashboard.html [L]
+RewriteRule ^users/?$ public/users.html [L]
+RewriteRule ^admin/?$ public/admin.html [L]
+
+# Serve assets from public/ without prefix
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
+RewriteRule ^(.*)$ public/$1 [L]
