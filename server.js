@@ -24,6 +24,18 @@ app.get('/register', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'register.html'));
 });
 
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
+
+app.get('/users', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'users.html'));
+});
+
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
 
@@ -32,10 +44,10 @@ app.post('/login', (req, res) => {
   }
 
   if (email === adminCredentials.email && password === adminCredentials.password) {
-    return res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+    return res.redirect('/admin');
   }
 
-  return res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+  return res.redirect('/dashboard');
 });
 
 app.post('/register', (req, res) => {
@@ -49,7 +61,7 @@ app.post('/register', (req, res) => {
     return res.status(400).send('Passwords do not match.');
   }
 
-  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+  res.redirect('/dashboard');
 });
 
 app.listen(PORT, () => {
